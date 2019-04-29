@@ -1,0 +1,129 @@
+<meta charset="utf-8">
+<h1>JS: this, insertBefore, append, prepend, remove, insertAdjacent</h1>
+
+<style>
+    form {
+        width: 400px;
+        margin-top: 20px;
+    }
+
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    input[type=text] {
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    button {
+        border-radius: 5px;
+        border: none;
+        background: green;
+        color: #fff;
+        padding: 15px 35px;
+    }
+
+    .field {
+        margin-top: 10px;
+    }
+
+    .msg {
+        padding: 15px 25px;
+        border-radius: 5px;
+        background: #f2f2f2;
+        border: 1px solid #ddd;
+    }
+
+    .msg-error,
+    .destacar {
+        border-color: #db2323 !important;
+        color: #db2323;
+        background: #fff0f0;
+    }
+
+    .msg-success {
+        border-color: #30cf6c;
+        color: #30cf6c;
+        background: #e3ffee;
+    }
+</style>
+
+<form action="" id="form1">
+    <div class="field">
+        <label for="">
+            * Nome: <br>
+            <input type="text" class="required" data-mensagem="Por favor, preencha o NOME">
+        </label>
+    </div>
+    <div class="field">
+        <label for="">
+            * E-mail:<br>
+            <input type="text" class="required" data-mensagem="Por favor, preencha o E-MAIL!">
+        </label>
+    </div>
+    <div class="field">
+        <label for="">
+            Telefone<br>
+            <input type="text" data-mensagem="">
+        </label>
+    </div>
+    <div class="field">
+        <button type="submit">
+            Cadastrar
+        </button>
+    </div>
+</form>
+
+<script>
+
+    //pega a referencia do elemento form a guarda na constante "form"
+    const form = document.querySelector('#form1');
+    const divMsg = document.createElement('div');
+    divMsg.classList.add('msg', 'msg-error');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); //bloqueia o envio do formulario (impede que a página seja recarregada)
+        const camposObrigatorios = form.querySelectorAll('.required');
+        let isFormValido = true;
+        const mensagensErro = [];
+
+        for (let i = 0; i < camposObrigatorios.length; i++) {
+            const campo = camposObrigatorios[i];
+            let isVazio = campo.value.trim().length === 0;
+
+            if (isVazio == true) {
+                campo.classList.add('destacar');
+                isFormValido = false;
+                //pega a mensagem de erro configurada no data-mensagem
+                mensagensErro.push(campo.dataset.mensagem);
+            }
+            else {
+                campo.classList.remove('destacar');
+            }
+        } // loop
+
+        // verifica se o formulário for inválido
+        if (isFormValido == false) {
+            divMsg.classList.replace('msg-success', 'msg-error');
+            divMsg.innerHTML = `
+                Por favor, preencha os campos sinalizados!<br>
+                ${mensagensErro.join("<br>")}
+            `; //interpolação, colocar o texto junto a itens dinâmicos
+        }
+        else {
+            divMsg.classList.replace('msg-error', 'msg-success');
+            divMsg.innerHTML = 'Cadastro realizado com <b>SUCESSO!</b>';
+        }
+
+        //insertBefore(elementoNovo, elementoReferencia):
+        //insere o elementoNovo ANTES do elementoReferencia
+        document.body.insertBefore(divMsg, form);
+    });
+
+
+
+</script>

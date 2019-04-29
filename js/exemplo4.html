@@ -1,0 +1,59 @@
+<meta charset="utf-8" />
+<h1>JS: classList (add, remove, toggle, contains)</h1>
+
+<style>
+    button {
+        background: #ddd;
+        border: 1px solid #bbb;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+
+    .button-red {
+        background: #fff0f0;
+        border-color: db2323;
+        color: #db2323;
+    }
+</style>
+
+<button id="btn1">
+    add('button-red')
+</button>
+<button id="btn2" class="button-red">
+    remove('button-red')
+</button>
+<button id="btn3">
+    toggle('button-red')
+</button>
+<button id="btn4" class="button-red">
+    contains('button-red')
+</button>
+
+<script>
+
+    /* Selecionamos cada um dos botões e guardamos as referẽncias */
+    const btn1 = document.querySelector('#btn1');
+    const btn2 = document.querySelector('#btn2');
+    const btn3 = document.querySelector('#btn3');
+    const btn4 = document.querySelector('#btn4');
+
+    btn1.onclick = function () {
+        btn1.classList.add('button-red');
+    }
+
+    btn2.onclick = function () {
+        btn2.classList.remove('button-red');
+    }
+
+    btn3.onclick = function () {
+        btn3.classList.toggle('button-red');
+    }
+
+    btn4.onclick = function () {
+        let temClasseRed = btn4.classList.contains('button-red');
+        if (temClasseRed) {
+            alert('Esse botão tem a classe Red');
+        }
+    }
+
+</script>

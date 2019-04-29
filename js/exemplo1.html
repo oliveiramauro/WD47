@@ -1,0 +1,93 @@
+<meta charset="utf-8" />
+<h1>JS: var, let e const</h1>
+
+<script>
+
+    var a = 999;
+
+    if (true) {
+        var b = a;
+    }
+    console.log(b); //imprime no console 999
+
+    //variáveis com "let"
+    let c = 888;
+    if (true) {
+        let d = c;
+    }
+
+    //console.log('D:',d); //ReferenceError
+
+    // alert(window.c === c); //false;
+
+    // Escopo vazio
+    {
+        let dadosGrandes = [{ nome: 'A', id: 1 }, { nome: 'B', id: 2 }];
+        console.log('Dados carregados em memória', dadosGrandes);
+    }
+    // console.log(dadosGrandes); //ReferenceError
+
+    //loops com "var" não criam ESCOPO
+    for (var e = 0; e <= 10; e++) {
+        console.log('e', e);
+    }
+
+    console.log('e fora do loop', e); // exibe 11
+
+    //loops com "let" criam ESCOPO
+    for (let f = 0; f <= 10; f++) {
+        console.log('f: ', f);
+    }
+    // console.log('f fora do loop: ', f);  //ReferenceErrror
+
+    // Constantes
+    const x = 0;
+    // x = 3; //TyperError = atribuição inválida
+    const lista = [12, 'Olá', true, 75.5];
+    console.log('Lista: ', lista); // Ok 
+    lista.push('Mauro');
+    lista.unshift('Este agora é primeiro item');
+    console.log('Lista modificada: ', lista); //Ok
+    //lista = []; // TypeError = reatribuição não é permitida;
+    //lista = x;  // TypeError também = reatribuição não é PERMITIDA;
+
+    /* Criação de objetos em JS */
+    const pessoa = {
+        nome: 'Mauro', //propriedade: valor de uma variável dentro de um objeto
+        sobrenome: 'Oliveira',
+        idade: 35,
+        //método: é o nome dado a uma função que pertence a um objeto
+        dobrarIdade: function () {
+            console.log(this.idade * 2);
+        }
+    };
+
+    pessoa.idade = 35;
+    console.log('Pessoa: ', pessoa);
+    pessoa.cidade = "Santos";
+    pessoa.dobrarIdade();
+    console.log('Pessoa: ', pessoa);
+    // pessoa = {a: 'Teste'}; //TypeError
+
+    {
+        let y = 10;
+        let w = 5;
+
+        let foo = function (x, z) {
+            alert(x + z);
+        }
+
+        function foo2() {
+            alert('Qualquer coisa');
+        }
+
+        //exportando a função "foo" interna (let) para o global (window)
+        window.foo = foo;
+    }
+
+    foo2(); //ok
+    foo(10, 10); //ok
+
+
+
+</script>

@@ -1,0 +1,33 @@
+<meta charset="utf-8" />
+<h1>JS: DOM, BOM, document e window</h1>
+<p id="meuParagrafo">
+    Parágrafo que será modificado
+</p>
+
+<script>
+
+    //window = Broser Object Model (BOM)
+    //document ou window.document = Document Object Model (DOM)
+
+    /*  Não é recomendado acessar a ID do objeto diretamente como variável
+    //interpreta como HTML
+    meuParagrafo.innerHTML = 'Texto <i>alterado</i> via JS';
+    //mostra como texto puro
+    meuParagrafo.textContent = 'Texto <i>alterado</i> via JS';
+    */
+
+    //getElementById() = padrão JS (RECOMENDADO)
+    document.getElementById('meuParagrafo').textContent = 'Texto alterado via JS';
+
+    //muda o conteúdo do parágrafo depois de 3 segundos
+    function mudarConteudoParagrafo() {
+        contador++;
+        document.getElementById('meuParagrafo').textContent = 'Conteúdo alterado pela ' + contador + 'ª vez...';
+    }
+
+    //setTimeout(mudarConteudoParagrafo, 3000); //executa depois de 3 segundos
+
+    let contador = 0;
+    setInterval(mudarConteudoParagrafo, 5 * 1000); //executa no intervalo de tempo
+
+</script>

@@ -1,0 +1,73 @@
+<meta charset="utf-8" />
+
+<h1>JS: addEventListener()</h1>
+
+<style>
+    button {
+        background: #ddd;
+        border: 1px solid #bbb;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+
+    button:focus {
+        box-shadow: 0 0 10px #db2323;
+    }
+</style>
+
+<button id="btn1" tabindex="0">
+    Click ou Barra de espaço
+</button>
+<button id="btn2" tabindex="0">
+    Click
+</button>
+<button id="btn3" tabindex="0">
+    MouseEnter ou Barra de espaço
+</button>
+<button id="btn4" tabindex="0">
+    Shift
+</button>
+
+<script>
+
+    /* Selecionamos cada um dos botões e guardamos as referẽncias */
+    const btn1 = document.querySelector('#btn1');
+    const btn2 = document.querySelector('#btn2');
+    const btn3 = document.querySelector('#btn3');
+    const btn4 = document.querySelector('#btn4');
+
+    function digaClick (event) {
+        if (event.button === 0) {
+            alert('Click!');
+        }
+    }
+
+    function digaBarraEspaco(event) {
+        if (event.key === ' '){
+        alert('Barra de Espaço!');
+        }
+    }
+
+    function digaShift() {
+        if (event.key === 'Shift'){
+            alert('Shift!');
+        }
+    }
+
+    function digaMouseEnter(){
+        alert('Mouse enter');
+    }
+
+    btn1.addEventListener('mouseup', digaClick);
+    btn1.addEventListener('keyup', digaBarraEspaco);
+
+    btn2.addEventListener('mouseup', digaClick);
+    
+    btn3.addEventListener('mouseenter', digaMouseEnter);
+    btn3.addEventListener('keyup', digaMouseEnter);
+
+    btn4.addEventListener('keyup', digaShift);
+
+
+
+</script>
