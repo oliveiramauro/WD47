@@ -1,0 +1,137 @@
+<meta charset="utf-8">
+<h1>JS: eventBubbling, parentElement, previousElementsSibling</h1>
+
+<table id="tabela1" class="table">
+    <thead>
+        <tr>
+            <th>Nome:</th>
+            <th>E-mail:</th>
+            <th>Cidade:</th>
+            <th>Estado:</th>
+            <th colspan="2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Mauro</td>
+            <td>mauro@gmail.com</td>
+            <td>Santos</td>
+            <td>SP</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Mari</td>
+            <td>mari@gmail.com</td>
+            <td>São Paulo</td>
+            <td>SP</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Josefa</td>
+            <td>jsefa@uol.com.br</td>
+            <td>Pequenopolis</td>
+            <td>RO</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Lourival</td>
+            <td>louval@ig.com.br</td>
+            <td>Maceió</td>
+            <td>AL</td>
+            <td>
+                <button class="editar-item">Editar</button>
+            </td>
+            <td>
+                <button class="excluir-item">Excluir</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<style>
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+
+    table {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+
+    table th,
+    table td {
+        border-bottom: 2px solid #ddd;
+        border-right: 1px solid #ddd;
+        background: #eee;
+        text-align: left;
+        padding: 15px;
+    }
+
+    table td {
+        background: #fff;
+        border-bottom-width: 1px;
+    }
+
+    table td.editavel {
+        border-color: #ffa305;
+        color: #ffa305;
+        background: #fcf6eb;
+    }
+</style>
+
+<script>
+
+
+    const tabela = document.querySelector('#tabela1');
+    tabela.addEventListener('click', excluirItem);
+    tabela.addEventListener('click', editarItem);
+
+    //exclui um item da tabela
+    function excluirItem(event) {
+        //alert(event.target.tagName);
+        let isBotaoExcluir = event.target.classList.contains('excluir-item');
+        if (isBotaoExcluir == true) {
+            //alert('Pode excluir o item!!');
+            if (confirm('Tem certeza que deseja excluir este item?') == true) {
+                //alert('Item excluido');
+                event.target.parentElement.parentElement.remove();
+            }
+        }
+    }
+
+    //edita o item da tabela
+    function editarItem(event){
+        let isBotaoEditar = event.target.classList.contains('editar-item');
+        if (isBotaoEditar == true) {
+            let tdIrmao = event.target.parentElement.previousElementSibling;
+            let isConteudoEditavel = true;
+
+            if (event.target.textContent == 'Editar') {
+                event.target.textContent = 'Desabilitar Edição';
+            }
+            else {
+                event.target.textContent = 'Editar';
+            }
+        }
+
+    }
+
+</script>

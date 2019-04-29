@@ -121,7 +121,22 @@
 
         //insertBefore(elementoNovo, elementoReferencia):
         //insere o elementoNovo ANTES do elementoReferencia
-        document.body.insertBefore(divMsg, form);
+        //document.body.insertBefore(divMsg, form);
+
+        //form.prepend(divMsg); //adiciona como divMsg como PRIMEIRO filho no form
+        //form.append(divMsg); //adiciona como divMsg como ULTIMO filho no form
+        //form.appendChild(divMsg); //adiciona como divMsg como ULTIMO filho no form
+
+        /*
+        * form.inserAdjacentElement(posicao, elemento)
+        * 'beforebegin': antes do começo da tag de referencia
+        * 'afterbegin': depois do começo da tag de referencia
+        * 'beforeend': antes do fim da tag de referencia
+        * 'afterend': depois do final da tag de referencia
+        */
+        form.insertAdjacentElement('afterend', divMsg);
+        //Insere um HTML no inicio
+        //form.insertAdjacentHTML('beforebegin', '<p>Paragrafo exemplo</p>')
     });
 
 
