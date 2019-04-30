@@ -1,0 +1,32 @@
+<meta charset="utf-8" />
+
+<h1>AJAX com JavaScript</h1>
+
+
+<button id="btnCarregar">
+    Carregar Conteúdo
+</button>
+<div id="conteudoCarregado">
+
+</div>
+
+<script>
+
+    const btnCarregar = document.querySelector('#btnCarregar');
+    btnCarregar.addEventListener('click', function () {
+        const ajax = new XMLHttpRequest();
+        ajax.open('GET', 'https://jhonatanjacinto.com');
+        ajax.responseType = 'html';
+        ajax.send();
+        //load: é executado quando a requisição foi bem sucedida
+        ajax.addEventListener('load', function(){
+            const divConteudo = document.querySelector('#conteudoCarregado');
+            divConteudo.innerHTML = ajax.response;
+        });
+        //error: é executado quando houve algum problema com a requisição AJAX
+        ajax.addEventListener('error', function() {
+            alert('Ops! Deu erro na requisição');
+        });
+    });
+
+</script>

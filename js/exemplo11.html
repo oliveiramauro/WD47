@@ -1,0 +1,49 @@
+<meta charset="utf-8" />
+
+<h1>Carregar Dados do Logradouro - Ajax com Fetch API</h1>
+CEP:<br>
+<input type="text" id="cep" />
+<button id="btnBuscar">Buscar</button>
+<br><br>
+Endereço:<br>
+<input type="text" id="endereco" />
+<br><br>
+Bairro:<br>
+<input type="text" id="bairro" />
+<br><br>
+Cidade:<br>
+<input type="text" id="cidade" />
+<br><br>
+Estado:<br>
+<input type="text" id="estado" />
+
+<script>
+
+    const btnBuscar = document.querySelector('#btnBuscar');
+    btnBuscar.addEventListener('click', function () {
+        let cep = document.querySelector('#cep').value;
+        if (cep.trim().length > 0 && isNaN(cep) == false) {
+            btnBuscar.disabled = true;
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(resposta => resposta.json())
+                .then(respostaJSON => {
+                    document.querySelector('#endereco').value = respostaJSON.logradouro;
+                    document.querySelector('#bairro').value = respostaJSON.bairro;
+                    document.querySelector('#cidade').value = respostaJSON.localidade;
+                    document.querySelector('#estado').value = respostaJSON.uf;
+                })
+                .catch(erro => {
+                    alert('Deu erro na busca do CEP');
+                    console.log('Erro Requisição: ', erro);
+                })
+                .finally(() => {
+                    btnBuscar.disabled = false;
+                });
+        }
+        else {
+            alert('Por favor, preencha o campo CEP!');
+        }
+    });
+
+
+</script>

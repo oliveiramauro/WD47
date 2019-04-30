@@ -1,0 +1,29 @@
+<meta charset="utf-8" />
+
+<h1>AJAX com JavaScript (API Fetch)</h1>
+
+
+<button id="btnCarregar">
+    Carregar Conteúdo
+</button>
+<div id="conteudoCarregado">
+
+</div>
+
+<script>
+
+    const btnCarregar = document.querySelector('#btnCarregar');
+    btnCarregar.addEventListener('click', function () {
+        fetch('exemplo3.html')
+        .then(resposta => resposta.text())
+        .then(respostaHTML => {
+            const divConteudo = document.querySelector('#conteudoCarregado');
+            divConteudo.innerHTML = respostaHTML;
+        })
+        .catch(erro => {
+            alert('Erro ao realizar a requisição');
+            console.log(erro);
+        });
+    });
+
+</script>
