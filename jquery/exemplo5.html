@@ -1,0 +1,75 @@
+<meta charset="utf-8" />
+
+<h1>jQuery: next, slideToggle</h1>
+
+<div class="accordion">
+    <div class="acc">
+        <h4>Accordion 1</h4>
+        <div class="acc-conteudo">
+            <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt consequuntur obcaecati reiciendis
+                sequi dolores? Nihil sint ex dolore illo blanditiis totam nisi saepe consequatur illum. Aspernatur,
+                iusto. Deserunt, excepturi. Magni!</div>
+        </div>
+    </div>
+    <div class="acc">
+        <h4>Accordion 2</h4>
+        <div class="acc-conteudo">
+            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laboriosam praesentium doloribus quasi
+                hic? Qui, fuga porro ea voluptatibus, iste recusandae possimus officiis obcaecati exercitationem dolor
+                expedita modi itaque nostrum.</div>
+        </div>
+    </div>
+    <div class="acc">
+        <h4>Accordion 3</h4>
+        <div class="acc-conteudo">
+            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, optio maxime. Labore id,
+                consectetur tempore recusandae, vitae laboriosam illum eius voluptatem quis doloribus, quisquam
+                veritatis adipisci totam iusto sed ducimus?</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        padding: 60px;
+    }
+
+    .acc {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 30px;
+    }
+
+    .acc>h4 {
+        border-bottom: 1px solid #ccc;
+        background: #eee;
+        margin: 0;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .acc>.acc-conteudo {
+        overflow: hidden;
+        display: none;
+    }
+
+    .acc>.acc-conteudo>div {
+        padding: 20px;
+        background: #fff;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+ 
+ $('.accordion .acc:first-child .acc-conteudo').show();
+
+ $('.accordion').on('click', 'h4', function(){
+    $(this).next().slideToggle('fast'); /*slideToggle(esse parametro pode ser passado como milissegundos)*/
+    $(this).parent().siblings('.acc').find('.acc-conteudo').slideUp('fast');
+ }); 
+
+</script>

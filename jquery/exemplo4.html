@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<h1>JS: eventBubbling, parentElement, previousElementsSibling</h1>
+<h1>jQuery: event delegation, prev, prevAll, next, nextAll, parent, closest</h1>
 
 <table id="tabela1" class="table">
     <thead>
@@ -97,48 +97,24 @@
     }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script>
-
-
-    const tabela = document.querySelector('#tabela1');
-    tabela.addEventListener('click', excluirItem);
-    tabela.addEventListener('click', editarItem);
-
-    //exclui um item da tabela
-    function excluirItem(event) {
-        //alert(event.target.tagName);
-        let isBotaoExcluir = event.target.classList.contains('excluir-item');
-        if (isBotaoExcluir == true) {
-            //alert('Pode excluir o item!!');
-            if (confirm('Tem certeza que deseja excluir este item?') == true) {
-                //alert('Item excluido');
-                event.target.parentElement.parentElement.remove();
-            }
+    $('#tabela1').on('click', 'button.excluir-item', function () {
+        if (confirm('Tem certeza que deseja excluir esse item?')) {
+            $(this).closest('tr').remove();
         }
+    });
+
+    $('#tabela1').on('click', 'button.editar-item', function () {
+        if ($(this).text() === 'Editar'){
+        $(this).text('Salvar');
+        $(this).parent().prevAll('td').addClass('editavel').prop('contenteditable', true);
     }
-
-    //edita o item da tabela
-    function editarItem(event){
-        let isBotaoEditar = event.target.classList.contains('editar-item');
-        if (isBotaoEditar == true) {
-            let tdIrmao = event.target.parentElement.previousElementSibling;
-            let isConteudoEditavel = true;
-
-            if (event.target.textContent == 'Editar') {
-                event.target.textContent = 'Desabilitar Edição';
-            }
-            else {
-                event.target.textContent = 'Editar';
-                isConteudoEditavel = false;
-            }
-            
-            while (tdIrmao != null) {
-            tdIrmao.classList.toggle('editavel');
-            tdIrmao.contentEditable = isConteudoEditavel;
-            tdIrmao = tdIrmao.previousElementSibling;
-            }
-        }
-
+        else {
+        $(this).text('Editar');
+        $(this).parent().prevAll('td').removeClass('editavel').prop('contenteditable', false);
     }
+});
 
 </script>

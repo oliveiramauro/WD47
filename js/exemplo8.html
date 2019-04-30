@@ -1,0 +1,99 @@
+<meta charset="utf-8" />
+
+<h1>JS: firstElementChild, lastElementChild, nextElementSibling</h1>
+
+<div class="accordion">
+    <div class="acc">
+        <h4>Accordion 1</h4>
+        <div class="acc-conteudo">
+            <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt consequuntur obcaecati reiciendis
+                sequi dolores? Nihil sint ex dolore illo blanditiis totam nisi saepe consequatur illum. Aspernatur,
+                iusto. Deserunt, excepturi. Magni!</div>
+        </div>
+    </div>
+    <div class="acc">
+        <h4>Accordion 2</h4>
+        <div class="acc-conteudo">
+            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto laboriosam praesentium doloribus quasi
+                hic? Qui, fuga porro ea voluptatibus, iste recusandae possimus officiis obcaecati exercitationem dolor
+                expedita modi itaque nostrum.</div>
+        </div>
+    </div>
+    <div class="acc">
+        <h4>Accordion 3</h4>
+        <div class="acc-conteudo">
+            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, optio maxime. Labore id,
+                consectetur tempore recusandae, vitae laboriosam illum eius voluptatem quis doloribus, quisquam
+                veritatis adipisci totam iusto sed ducimus?</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        padding: 60px;
+    }
+
+    .acc {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .acc>h4 {
+        border-bottom: 1px solid #ccc;
+        background: #eee;
+        margin: 0;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .acc>.acc-conteudo {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 1s;
+    }
+
+    .acc>.acc-conteudo>div {
+        padding: 20px;
+        background: #fff;
+    }
+
+    .acc>.acc-conteudo.open {
+        max-height: 500px;
+        transition: max-height 1s;
+    }
+</style>
+
+<script>
+    const accordion = document.querySelector('.accordion');
+    accordion.firstElementChild.lastElementChild.classList.add('open');
+    accordion.addEventListener('click', function (event) {
+        let isCabecalho = event.target.tagName === 'H4';
+        if (isCabecalho == true) {
+            const h4 = event.target;
+            const divConteudo = h4.nextElementSibling;
+            divConteudo.classList.toggle('open');
+            const divAcc = h4.parentElement;
+
+            // console.log(accordion.childNodes);
+            /*            accordion.childNodes.forEach(function(elemento){
+                            if(elemento.nodeType == 1 && divAcc != elemento) {
+                                elemento.lastElementChild.classList.remove('open');
+                            }
+                        });*/
+        
+        Array.from(accordion.children).forEach(function(elemento){
+            if (divAcc != elemento) {
+                elemento.lastElementChild.classList.remove('open');
+            }
+        });
+
+        }
+    });
+
+
+</script>

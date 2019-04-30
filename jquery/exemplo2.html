@@ -1,0 +1,55 @@
+<meta charset="utf-8" />
+<h1>jQuery: classList (add, remove, toggle, contains)</h1>
+
+<style>
+    button {
+        background: #ddd;
+        border: 1px solid #bbb;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+
+    .button-red {
+        background: #fff0f0;
+        border-color: db2323;
+        color: #db2323;
+    }
+</style>
+
+<button id="btn1">
+    add('button-red')
+</button>
+<button id="btn2" class="button-red">
+    remove('button-red')
+</button>
+<button id="btn3">
+    toggle('button-red')
+</button>
+<button id="btn4" class="button-red">
+    contains('button-red')
+</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $('#btn1').click(function(){
+        $(this).addClass('button-red');
+    });
+    
+    $('#btn2').click(function(){
+        $(this).removeClass('button-red');
+    });
+
+    $('#btn3').click(function(){
+        $(this).toggleClass('button-red');
+    });
+
+    $('#btn4').click(function(){
+        let temClasseButtonRed = $(this).hasClass('button-red');
+        if (temClasseButtonRed == true){
+            alert('Este botão tem a classe RED');
+        }
+    });
+
+
+</script>
