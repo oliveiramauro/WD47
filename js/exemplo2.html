@@ -27,7 +27,14 @@
 
     //setTimeout(mudarConteudoParagrafo, 3000); //executa depois de 3 segundos
 
-    let contador = 0;
+    let contador = 0;const btns = document.querySelectorAll('.opcoesDoCartao-remove');
+    btns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const cartao = this.parentElement.parentElement;
+            cartao.classList.add('cartao--some');
+            cartao.addEventListener('transitionend', () => cartao.remove());
+        });
+    });
     setInterval(mudarConteudoParagrafo, 5 * 1000); //executa no intervalo de tempo
 
 </script>
