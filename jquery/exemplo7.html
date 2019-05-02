@@ -1,0 +1,54 @@
+<meta charset="utf-8" />
+
+<h1>Carregar Dados do Logradouro - Ajax com Fetch API</h1>
+CEP:<br>
+<input type="text" id="cep" />
+<button id="btnBuscar">Buscar</button>
+<br><br>
+Endereço:<br>
+<input type="text" id="endereco" />
+<br><br>
+Bairro:<br>
+<input type="text" id="bairro" />
+<br><br>
+Cidade:<br>
+<input type="text" id="cidade" />
+<br><br>
+Estado:<br>
+<input type="text" id="estado" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+    $('#btnBuscar').click(function () {
+        let cep = $('#cep').val();
+        if (cep.trim().length > 0 && isNaN(cep) == false) {
+            $(this).prop('disabled', true);
+            $.ajax({
+                type: 'GET',
+                url: `https://viacep.com.br/ws/${cep}/json`,
+                dataType: 'json'
+            })
+                .done(respostaJson => {
+                    $('#endereco').val(respostaJson.logradouro);
+                    $('#bairro').val(respostaJson.bairro);
+                    $('#cidade').val(respostaJson.localidade);
+                    $('#estado').val(respostaJson.uf);
+                })
+                .fail(erro => {
+                    alert('Erro ao buscar CEP!');
+                    console.log('Erro: ', erro);
+                })
+                .always(() => {
+                    $(this).prop('disabled', false);
+                });
+        }
+        else {
+            alert('Por favor, preencha o CEP com um valor válido');
+        }
+
+    })
+
+
+</script>

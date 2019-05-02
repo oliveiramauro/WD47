@@ -1,0 +1,48 @@
+<meta charset="utf-8" />
+
+<h1>AJAX com jQuery</h1>
+
+
+<button id="btnCarregar">
+    Carregar Conteúdo
+</button>
+<div id="conteudoCarregado">
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+
+        $.ajax({
+            type:'GET',
+            url: 'exemplo1.html',
+            dataType: 'html'
+        })
+
+        /* pode ser usado no lugar do ajax/done/fail
+        $('#btnCarregar').click(function() {
+        $.get('exemplo1.html', null, resposta => {
+            $('#conteudoCarregado').html(resposta);
+        }, 'html');*/
+        
+        .done(resposta => {
+            $('#conteudoCarregado').html(resposta);
+        })
+        .fail(erro => {
+            alert('Ops, algo deu errado');
+            console.log('Erro: ', erro);
+        })
+        
+        /* pode ser usado com then/catch no lugar de done/fail
+        .then(resposta => {
+            $('#conteudoCarregado').html(resposta);
+        })
+        .catch(erro => {
+            alert('Ops, algo deu errado');
+            console.log('Erro: ', erro);
+        })*/
+        
+    });
+
+</script>
