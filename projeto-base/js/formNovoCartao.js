@@ -1,5 +1,6 @@
 (function () {
-    let numeroDoCartao = 0;
+    /* essa parte foi transferida para mural.js
+    let numeroDoCartao = 0;*/
     const form = document.querySelector('.formNovoCartao');
     form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -12,9 +13,12 @@
             form.append(msg);
         }
         else {
-            numeroDoCartao++;
-            let conteudo = caixaTexto.value;
-            caixaTexto.value = "";
+            /* essa parte foi transferida para mural.js
+            numeroDoCartao++; */
+            adicionaCartaoNoMural({ conteudo: caixaTexto.value });
+            caixaTexto.value = ""; //limpa a caixa de texto
+            /* essa parte foi transferida para mural.js
+            
             const cartao = $(`
             <article id="cartao_${numeroDoCartao}" tabindex="0" class="cartao">
         <div class="opcoesDoCartao">
@@ -71,7 +75,7 @@
                     cartao.on('transitionend', () => cartao.remove());
                 }
 
-            });
+            });*/
         }
 
     });
