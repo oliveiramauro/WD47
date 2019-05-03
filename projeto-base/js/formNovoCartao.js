@@ -15,7 +15,7 @@
         else {
             /* essa parte foi transferida para mural.js
             numeroDoCartao++; */
-            adicionaCartaoNoMural({ conteudo: caixaTexto.value });
+            moduloMural.adicionarCartao({ conteudo: caixaTexto.value });
             caixaTexto.value = ""; //limpa a caixa de texto
             /* essa parte foi transferida para mural.js
             

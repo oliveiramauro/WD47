@@ -1,10 +1,9 @@
-(function () {
-    let numeroDoCartao = 0;
-    window.adicionaCartaoNoMural = function (cartaoObj)
-    {
-        numeroDoCartao++;
-        let conteudo = cartaoObj.conteudo;
-        const cartao = $(`
+const moduloMural = (function () {
+  let numeroDoCartao = 0;
+  function adicionaCartaoNoMural(cartaoObj) {
+    numeroDoCartao++;
+    let conteudo = cartaoObj.conteudo;
+    const cartao = $(`
                 <article id="cartao_${numeroDoCartao}" tabindex="0" class="cartao" style="background-color:${cartaoObj.cor}">
             <div class="opcoesDoCartao">
               <button class="opcoesDoCartao-remove opcoesDoCartao-opcao" tabindex="0">
@@ -34,34 +33,44 @@
             <p class="cartao-conteudo" contenteditable tabindex="0">${conteudo}</p>
           </article>
                 `);
-        $(cartao).appendTo('.mural');
+    $(cartao).appendTo('.mural');
 
-        cartao.on('focusin', () => {
-            cartao.addClass('cartao--focado');
-        });
-        cartao.on('focusout', () => {
-            cartao.removeClass('cartao--focado');
-        });
-        cartao.on('change', '.opcoesDoCartao-radioTipo', function (event) {
-            //target retorna valor html, por isso o val não é usado aqui, teria que transformar em jQuery para depois usar o val
-            //exemplo: $(event.target).val() 
-            cartao.css('background-color', event.target.value);
-        });
-        cartao.on('keyup', '.opcoesDoCartao-tipo', function (event) {
-            //console.log(event.target);
-            //let isBotaoCor = event.target.classList.contains('opcoesDoCartao-tipo');
-            if (event.key === ' ' || event.key === 'Enter') {
-                event.target.click();
-            }
-        });
-        cartao.on('click', '.opcoesDoCartao-remove', function (event) {
-            if (confirm('Tem certeza que deseja excluir este cartão?') == true) {
-                cartao.addClass('cartao--some');
-                cartao.on('transitionend', () => cartao.remove());
-            }
+    cartao.on('focusin', () => {
+      cartao.addClass('cartao--focado');
+    });
+    cartao.on('focusout', () => {
+      cartao.removeClass('cartao--focado');
+    });
+    cartao.on('change', '.opcoesDoCartao-radioTipo', function (event) {
+      //target retorna valor html, por isso o val não é usado aqui, teria que transformar em jQuery para depois usar o val
+      //exemplo: $(event.target).val() 
+      cartao.css('background-color', event.target.value);
+    });
+    cartao.on('keyup', '.opcoesDoCartao-tipo', function (event) {
+      //console.log(event.target);
+      //let isBotaoCor = event.target.classList.contains('opcoesDoCartao-tipo');
+      if (event.key === ' ' || event.key === 'Enter') {
+        event.target.click();
+      }
+    });
+    cartao.on('click', '.opcoesDoCartao-remove', function (event) {
+      if (confirm('Tem certeza que deseja excluir este cartão?') == true) {
+        cartao.addClass('cartao--some');
+        cartao.on('transitionend', () => cartao.remove());
+      }
 
-        });
-    }
+    });
+  }
+  //retorna um objeto que vai representar o módulo
+  return {
+    /******************
+     * esse objeto terá apenas 1 método público(adicionaCartao)
+     * que quando chamado vai executar a função adicionaCartaoNoMural 
+     * que existe só dentro do módulo 
+     */
+    adicionarCartao: adicionaCartaoNoMural
+  
+  };
 })();
 
 
