@@ -1,0 +1,178 @@
+<meta charset="utf-8" />
+<h1>JS: indexedDB</h1>
+Nome: <br>
+<input type="text" id="nome" />
+<br><br>
+Idade: <br>
+<input type="text" id="idade" />
+<br><br>
+Cargo: <br>
+<input type="text" id="cargo" />
+<br><br>
+<input type="hidden" id="idEmpregado" value="" />
+<button onclick="salvarEmpregado();">
+    Salvar
+</button>
+<br><br>
+<table id="tabela1">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>idade:</th>
+            <th>Cargo:</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<style>
+    body {
+        padding: 60px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+
+    table th,
+    table td {
+        border-bottom: 2px solid #ddd;
+        border-right: 1px solid #ddd;
+        background: #eee;
+        text-align: left;
+        padding: 15px;
+    }
+
+    table td {
+        background: #fff;
+        border-bottom-width: 1px;
+    }
+</style>
+<script>
+    const corpoTabela = document.querySelector('#tabela1 tbody');
+
+    /* Inicializar a criação do banco */
+    let db;
+    const requestDb = indexedDB.open('empregados', 1); //open(nome_base_dados, versao)
+    requestDb.addEventListener('success', event => {
+        db = requestDb.result;
+        listarEmpregados();
+        console.log('Base de dados inicializada/criada com sucesso!');
+    });
+    requestDb.addEventListener('error', event => {
+        console.error('Erro DB: não foi possível criar a base de dados!');
+    });
+    //defino como será a estrutura da base de dados
+    requestDb.addEventListener('upgradeneeded', event => {
+        db = requestDb.result;
+        const store = db.createObjectStore('empregados', { keyPath: 'id', autoIncrement: true });
+        store.add({ nome: 'João João', idade: 21, cargo: 'Pasteleiro' });
+        store.add({ nome: 'Silvana Silva', idade: 33, cargo: 'CEO' });
+    });
+
+    corpoTabela.addEventListener('click', event => {
+        const botao = event.target;
+        if (botao.classList.contains('excluir') == true){
+            //excluir o dado da tabela
+            if (confirm('Deseja remover este item?')){
+                let id = parseInt(botao.parentElement.parentElement.dataset.id);
+                excluirEmpregado(id);
+                listarEmpregados();
+            }
+        }
+        else if (botao.classList.contains('editar') == true) {
+            //editamos os dados da linha
+            let id = parseInt(botao.parentElement.parentElement.dataset.id);
+            getEmpregado(id);
+        }
+
+    });
+
+    function getEmpregado(id) {
+        const operacaoGetEmpregado = db.transaction(['empregados']).objectStore('empregados').get(id);
+        operacaoGetEmpregado.addEventListener('success', event => {
+            const empregado = event.target.result;
+            document.querySelector('#nome').value = empregado.nome;
+            document.querySelector('#idade').value = empregado.idade;
+            document.querySelector('#cargo').value = empregado.cargo;
+            document.querySelector('#idEmpregado').value = empregado.id;
+        })
+    };
+
+    function excluirEmpregado(id){
+        const storeEmpregados = db.transaction(['empregados'], 'readwrite').objectStore('empregados');
+        const operacaoExcluirEmpregado = storeEmpregados.delete(id);
+        operacaoExcluirEmpregado.addEventListener('success', event => {
+            alert('Dados excluidos com sucesso!');
+        });
+    }
+
+    function salvarEmpregado() {
+        const nome = document.querySelector('#nome');
+        const idade = document.querySelector('#idade');
+        const cargo = document.querySelector('#cargo');
+        const id = document.querySelector('#idEmpregado');
+
+        if (!nome.value.trim() || !idade.value.trim() || !cargo.value.trim()) {
+            alert('Por favor, preencha todos os campos do formulário');
+        }
+        else {
+            const dadosEmpregado = {
+                nome: nome.value,
+                idade: idade.value,
+                cargo: cargo.value
+            };
+
+            const storeEmpregados = db.transaction(['empregados'], 'readwrite').objectStore('empregados');
+            let operacaoSalvarEmpregado;
+
+            if (id.value.trim().length >0){
+                dadosEmpregado.id = parseInt(id.value);
+                operacaoSalvarEmpregado = storeEmpregados.put(dadosEmpregado);
+            }
+            else {
+                operacaoSalvarEmpregado = storeEmpregados.add(dadosEmpregado);
+            }
+
+            operacaoSalvarEmpregado.addEventListener('success', event => {
+                alert('Dados do empregado salvos com sucesso!');
+                listarEmpregados();
+                nome.value = '';
+                idade.value = '';
+                cargo.value = '';
+                id.value = '';
+            });
+
+            operacaoSalvarEmpregado.addEventListener('error', event => {
+                alert('Erro ao cadastrar empregado!');
+            });
+        }
+    }
+
+    function listarEmpregados() {
+        const storeEmpregados = db.transaction(['empregados']).objectStore('empregados');
+        corpoTabela.innerHTML = "";
+        storeEmpregados.openCursor().addEventListener('success', event => {
+            let linha = event.target.result;
+            if (linha) {
+                corpoTabela.innerHTML += `
+                    <tr data-id="${linha.key}">
+                        <td>${linha.value.nome}</td>
+                        <td>${linha.value.idade}</td>
+                        <td>${linha.value.cargo}</td>
+                        <td>
+                            <button class="excluir">Excluir</button>
+                        </td>
+                        <td>
+                            <button class="editar">Editar</button>
+                        </td>
+                    </tr>
+                `;
+                linha.continue();
+            }
+        });
+    }
+
+</script>
