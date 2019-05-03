@@ -1,13 +1,19 @@
-(function(){
+(function () {
 
     const btnAjuda = document.querySelector('#btnAjuda');
-    btnAjuda.addEventListener('click', function() {
+    btnAjuda.addEventListener('click', function () {
         const ajax = new XMLHttpRequest();
-        ajax.open('GET', 'https://ceep.herokuapp.com/cartoes/instrucoes/');
+        ajax.open('GET', 'https://ceep.herokuapp.com/cartoes/instrucoes');
         ajax.responseType = 'json';
         ajax.send();
-        ajudas.forEach(ajuda => {
-            moduloMural.adicionarCartao(ajuda);
+        ajax.addEventListener('load', function () {
+            const ajudas = ajax.response.instrucoes; //array de objetos
+            ajudas.forEach(ajuda => {
+                moduloMural.adicionarCartao(ajuda);
+            });
+        });
+        ajax.addEventListener('error', function () {
+            alert('Erro ao buscar as informações. Por tente novamente mais tarde');
         });
         /*const ajudas = [
             {conteudo: 'Bem-vindo ao CEEP!', cor: '#f054540'},

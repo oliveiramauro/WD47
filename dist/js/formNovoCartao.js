@@ -19,6 +19,7 @@
             /* essa parte foi transferida para mural.js
             numeroDoCartao++; */
             moduloMural.adicionarCartao({ conteudo: caixaTexto.value });
+            moduloSync.sincronizar();
             caixaTexto.value = ""; //limpa a caixa de texto
             /* essa parte foi transferida para mural.js
             

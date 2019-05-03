@@ -56,11 +56,38 @@ const moduloMural = (function () {
     cartao.on('click', '.opcoesDoCartao-remove', function (event) {
       if (confirm('Tem certeza que deseja excluir este cartão?') == true) {
         cartao.addClass('cartao--some');
-        cartao.on('transitionend', () => cartao.remove());
+        cartao.on('transitionend', () => {
+          cartao.remove();
+          moduloSync.sincronizar();
+        });
       }
 
     });
   }
+
+  $.ajax({
+    type: 'GET',
+    url: 'https://ceep.herokuapp.com/cartoes/carregar',
+    data: { usuario: 'oliveiramauro@live.com' },
+    dataType: 'jsonp' //JSONP (JSON with padding) é um formato antigo de dados
+  })
+    .done(resposta => {
+      console.log(resposta);
+      const cartoes = resposta.cartoes;
+      if (cartoes.length > 0) {
+        cartoes.forEach(cartao => {
+          adicionaCartaoNoMural(cartao);
+        });
+      }
+      else {
+        alert('Não há cartões salvos para serem exibidos!');
+      }
+
+    })
+    .fail(erro => {
+      alert('Não foi possível carregar seus cartões!');
+    });
+
   //retorna um objeto que vai representar o módulo
   return {
     /******************
@@ -69,8 +96,11 @@ const moduloMural = (function () {
      * que existe só dentro do módulo 
      */
     adicionarCartao: adicionaCartaoNoMural
-  
+
   };
+
+
+
 })();
 
 
